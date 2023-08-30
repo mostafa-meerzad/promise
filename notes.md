@@ -111,3 +111,51 @@ Promise.race([promise1, promise2]).then((res) => {
   console.log("the result from Promise.race: ", res);
 });
 ```
+
+## Async Await
+
+is a syntactical sugar for working with promises.
+
+if a function returns a promise you can **await** it, prefix with **await** and call the promise and store the returned value in a normal variable, wrap all those promise calls in a function prefixed with **async**,
+
+````js
+
+
+function getUser(id) {
+  return new Promise((resolve, reject) => {
+    console.log("getting the user...");
+    setTimeout(() => {
+      resolve({ name: "mostafa", id });
+    });
+  }, 2000);
+}
+
+function getRepos(user) {
+  return new Promise((resolve, reject) => {
+    console.log("getting user repos...");
+    setTimeout(() => {
+      resolve(["repo 1", "repo 2", "repo 3"]);
+    }, 2000);
+  });
+}
+function getComments(repo) {
+  return new Promise((resolve, reject) => {
+    console.log("getting comments...");
+    setTimeout(() => {
+      resolve(["comment 1", "comment 2", "comment 3"]);
+    }, 2000);
+  });
+}
+```
+
+```js
+async function readUser() {
+  try {
+    const user = await getUser(12);
+    const repos = await getRepos(user);
+    const comments = await getComments(repos);
+  } catch (err) {
+    console.log("something went wrong ", err);
+  }
+}
+````
